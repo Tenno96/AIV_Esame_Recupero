@@ -13,7 +13,7 @@ is_client_running = False
 
 def receive_messages(sock):
     print("start client receive message.")
-    global is_client_running
+    global is_client_running, clients_counter
     while True:
         try:
             data = sock.recv(7)
@@ -27,6 +27,7 @@ def receive_messages(sock):
                 data_packet = struct.pack(">bbbi", client_id, packet_counter, packet_length, sender_message_len)
                 computed_crc = zlib.crc32(data_packet)
                 if computed_crc == crc or True:
+                    clients_counter[sender_id] = packet_counter
                     data_message = sock.recv(sender_message_len)
                     sender_message = data_message.decode("utf-8")
                     print(f"\n[CLIENT] message from {sender_id}: {sender_message}")
