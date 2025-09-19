@@ -30,12 +30,13 @@ def receive_messages(sock):
                     clients_counter[sender_id] = packet_counter
                     data_message = sock.recv(sender_message_len)
                     sender_message = data_message.decode("utf-8")
-                    print(f"\n[CLIENT] message from {sender_id}: {sender_message}")
+                    print(f"\n[CLIENT_{sender_id}]: {sender_message}")
         except Exception as ex:
             print("Error handling client: {0}:{1}".format(client_id, ex))
             break
 
     is_client_running = False
+    sock.close()
 
 def run_client():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

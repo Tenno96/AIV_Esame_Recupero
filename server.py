@@ -25,13 +25,11 @@ def hadle_client(client_socket, client_id):
 
                     # extract string
                     message = data_message.decode("utf-8") 
-                    print("Message from {0}: {1}".format(client_id, message))
+                    print("Message from [CLIENT_{0}]: {1}".format(client_id, message))
 
                     packet_to_send = struct.pack(">bbbiI", client_id, packet_counter, packet_length, message_len, crc) + message.encode("utf-8")
                     for other_client in clients:
-                        print(other_client)
                         if other_client != client_id:
-                            print(f"send to client ID: {other_client}")
                             clients[other_client].sendall(packet_to_send)
         except Exception as ex:
             print("Error handling client: {0}:{1}".format(client_id, ex))
